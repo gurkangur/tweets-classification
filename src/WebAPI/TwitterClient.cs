@@ -9,12 +9,15 @@ namespace WebAPI
 {
     public class TwitterClient : IDisposable
     {
+        private const string _baseUrl = "https://api.twitter.com/2/";
+
+        private readonly HttpClient _httpClient;
+        private readonly JsonSerializerOptions _jsonOptions;
 
         public TwitterClient(string bearerToken)
         {
             _httpClient = new();
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
-
             _jsonOptions = new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
         }
 
@@ -32,10 +35,6 @@ namespace WebAPI
             return answer.Data;
         }
 
-        private const string _baseUrl = "https://api.twitter.com/2/";
-
-        private readonly HttpClient _httpClient;
-        private readonly JsonSerializerOptions _jsonOptions;
 
         public void Dispose()
         {
